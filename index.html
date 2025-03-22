@@ -1,141 +1,680 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mind Buddy - Mental Health Support</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        
-        .dark-mode {
-            background-color: #222;
-            color: #ddd;
-        }
-        .dark-mode header {
-            background-color: #333;
-            color: white;
-        }
-        .dark-mode .therapist-card {
-            background-color: #444;
-            color: white;
-        }
-        .dark-mode .btn-secondary {
-            background-color: white;
-            color: black;
-        }
-        
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #222;
-        }
-        
-        .header-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        
-        .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary {
-            background-color: #e83e8c;
-            color: white;
-        }
-        
-        .btn-secondary {
-            background-color: white;
-            color: #333;
-            border: 1px solid #ddd;
-        }
-        
-        .hero {
-            background-color: #f8d7f0;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        
-        .therapists-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .therapist-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
-        
-        .therapist-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .therapist-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .therapist-info {
-            padding: 1rem;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <a href="#" class="logo">Mind Buddy</a>
-        <div class="header-links">
-            <button class="btn btn-secondary" id="dark-mode-toggle">Toggle Dark Mode</button>
-        </div>
-    </header>
-
-    <section class="hero">
-        <h1>Find a therapist and schedule a session</h1>
-        <p>Choose your therapist and preferred session time</p>
-    </section>
-
-    <main class="main-content">
-        <div class="results">
-            <h2>Available Therapists</h2>
-            <div id="therapist-list" class="therapists-grid"></div>
-        </div>
-        
-        <div class="testimonials">
-            <h2>What Our Customers Say</h2>
-            <div id="testimonial-list" class="therapists-grid"></div>
-        </div>
-    </main>
-
-    <script src="script.js" defer></script>
-</body>
-</html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Mind Buddy - Mental Health Support</title>
+     <style>
+         * {
+             margin: 0;
+             padding: 0;
+             box-sizing: border-box;
+             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+         }
+ 
+         body {
+             background-color: #f5f5f5;
+             transition: background-color 0.3s, color 0.3s;
+         }
+         
+         .dark-mode {
+             background-color: #222;
+             color: #ddd;
+         }
+         .dark-mode header {
+             background-color: #333;
+             color: white;
+         }
+         .dark-mode .therapist-card {
+             background-color: #444;
+             color: white;
+         }
+         .dark-mode .btn-secondary {
+             background-color: white;
+             color: black;
+         }
+ 
+         header {
+ @@ -55,6 +37,12 @@
+             align-items: center;
+         }
+ 
+         .header-link {
+             color: #333;
+             text-decoration: none;
+             font-size: 0.9rem;
+         }
+         
+         .btn {
+             padding: 0.5rem 1rem;
+             border-radius: 5px;
+ @@ -81,6 +69,136 @@
+             text-align: center;
+         }
+ 
+         .hero h1 {
+             font-size: 2rem;
+             margin-bottom: 1rem;
+             color: #222;
+         }
+         
+         .hero p {
+             color: #555;
+             margin-bottom: 2rem;
+         }
+         
+         .search-card {
+             background: white;
+             border-radius: 12px;
+             padding: 1.5rem;
+             max-width: 800px;
+             margin: 0 auto;
+             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+         }
+         
+         .search-card h2 {
+             margin-bottom: 1.5rem;
+             font-size: 1.25rem;
+             color: #333;
+         }
+         
+         .search-form {
+             display: grid;
+             grid-template-columns: 1fr 1fr 1fr auto;
+             gap: 1rem;
+             align-items: center;
+         }
+         
+         .search-form select, .search-form input {
+             padding: 0.75rem;
+             border: 1px solid #ddd;
+             border-radius: 5px;
+             background-color: white;
+         }
+         
+         .main-content {
+             padding: 2rem;
+             display: flex;
+             max-width: 1200px;
+             margin: 0 auto;
+             gap: 2rem;
+         }
+         
+         .sidebar {
+             flex: 0 0 250px;
+         }
+         
+         .sidebar-section {
+             margin-bottom: 2rem;
+         }
+         
+         .sidebar-section h3 {
+             font-size: 1rem;
+             margin-bottom: 1rem;
+             color: #333;
+         }
+         
+         .search-box {
+             display: flex;
+             margin-bottom: 1.5rem;
+         }
+         
+         .search-box input {
+             flex: 1;
+             padding: 0.75rem;
+             border: 1px solid #ddd;
+             border-radius: 5px 0 0 5px;
+         }
+         
+         .search-box button {
+             background: white;
+             border: 1px solid #ddd;
+             border-left: none;
+             padding: 0 0.75rem;
+             border-radius: 0 5px 5px 0;
+             cursor: pointer;
+         }
+         
+         .checkbox-group {
+             display: flex;
+             align-items: center;
+             margin-bottom: 0.75rem;
+         }
+         
+         .checkbox-group input {
+             margin-right: 0.5rem;
+         }
+         
+         .checkbox-group label {
+             display: flex;
+             align-items: center;
+             font-size: 0.9rem;
+             color: #333;
+         }
+         
+         .checkbox-group img {
+             width: 20px;
+             height: 20px;
+             margin-right: 0.5rem;
+         }
+         
+         .results {
+             flex: 1;
+         }
+         
+         .results-header {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             margin-bottom: 1.5rem;
+         }
+         
+         .results-count {
+             font-size: 0.9rem;
+             color: #555;
+         }
+         
+         .sort-dropdown {
+             padding: 0.5rem;
+             border: 1px solid #ddd;
+             border-radius: 5px;
+             background: white;
+             font-size: 0.9rem;
+         }
+         
+         .therapists-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+ @@ -109,34 +227,484 @@
+             padding: 1rem;
+             text-align: center;
+         }
+         
+         .therapist-name {
+             font-weight: 600;
+             margin-bottom: 0.5rem;
+             color: #333;
+         }
+         
+         .therapist-specialty {
+             font-size: 0.85rem;
+             color: #666;
+         }
+         
+         .pagination {
+             display: flex;
+             justify-content: center;
+             margin-top: 2rem;
+             gap: 0.5rem;
+         }
+         
+         .pagination a {
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             width: 2rem;
+             height: 2rem;
+             border-radius: 5px;
+             text-decoration: none;
+             color: #333;
+         }
+         
+         .pagination a.active {
+             background-color: #e83e8c;
+             color: white;
+         }
+         
+         footer {
+             background: white;
+             padding: 2rem;
+             border-top: 1px solid #eee;
+             margin-top: 2rem;
+         }
+         
+         .footer-content {
+             display: flex;
+             justify-content: space-between;
+             max-width: 1200px;
+             margin: 0 auto;
+         }
+         
+         .footer-section {
+             margin-bottom: 1.5rem;
+         }
+         
+         .footer-section h3 {
+             font-size: 1.1rem;
+             margin-bottom: 1rem;
+             color: #333;
+         }
+         
+         .footer-links {
+             display: flex;
+             flex-direction: column;
+             gap: 0.5rem;
+         }
+         
+         .footer-links a {
+             color: #555;
+             text-decoration: none;
+             font-size: 0.9rem;
+         }
+         
+         .social-links {
+             display: flex;
+             gap: 1rem;
+             margin-top: 1rem;
+         }
+         
+         .social-icon {
+             width: 24px;
+             height: 24px;
+         }
+         
+         @media (max-width: 768px) {
+             .search-form {
+                 grid-template-columns: 1fr;
+             }
+             
+             .main-content {
+                 flex-direction: column;
+             }
+             
+             .sidebar {
+                 flex: none;
+                 width: 100%;
+             }
+             
+             .therapists-grid {
+                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+             }
+             
+             .footer-content {
+                 flex-direction: column;
+             }
+         }
+     </style>
+ </head>
+ <body>
+     <header>
+         <a href="#" class="logo">Mind Buddy</a>
+         <div class="header-links">
+             <button class="btn btn-secondary" id="dark-mode-toggle">Toggle Dark Mode</button>
+             <a href="#" class="header-link">AI-powered</a>
+             <a href="#" class="header-link">Sign up for free</a>
+             <a href="#" class="header-link">Real-time</a>
+             <button class="btn btn-primary">Join now</button>
+         </div>
+     </header>
+ 
+     <section class="hero">
+         <h1>Find a therapist and schedule a session</h1>
+         <p>Choose your therapist and preferred session time</p>
+         
+         <div class="search-card">
+             <h2>Schedule your therapy session</h2>
+             <form class="search-form">
+                 <select>
+                     <option>Therapist / Session Type / Topic</option>
+                     <option>Individual Therapy</option>
+                     <option>Couples Therapy</option>
+                     <option>Family Therapy</option>
+                     <option>Group Therapy</option>
+                 </select>
+                 
+                 <input type="text" placeholder="Location">
+                 
+                 <input type="date" placeholder="Date">
+                 
+                 <button class="btn btn-primary">Find</button>
+             </form>
+         </div>
+     </section>
+ 
+     <main class="main-content">
+         <div class="results">
+             <h2>Available Therapists</h2>
+             <div id="therapist-list" class="therapists-grid"></div>
+         </div>
+         <aside class="sidebar">
+             <div class="sidebar-section">
+                 <h3>Customize your search</h3>
+                 <div class="search-box">
+                     <input type="text" placeholder="Search">
+                     <button>🔍</button>
+                 </div>
+             </div>
+             
+             <div class="sidebar-section">
+                 <h3>AI Program</h3>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="therapist-support" checked>
+                     <label for="therapist-support">
+                         <img src="/api/placeholder/20/20" alt="Icon"> Therapist Support
+                     </label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="stress-management" checked>
+                     <label for="stress-management">
+                         <img src="/api/placeholder/20/20" alt="Icon"> Stress Management
+                     </label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="cognitive-health" checked>
+                     <label for="cognitive-health">
+                         <img src="/api/placeholder/20/20" alt="Icon"> Cognitive Health
+                     </label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="emotional-wellness" checked>
+                     <label for="emotional-wellness">
+                         <img src="/api/placeholder/20/20" alt="Icon"> Emotional Wellness
+                     </label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="counseling-services" checked>
+                     <label for="counseling-services">
+                         <img src="/api/placeholder/20/20" alt="Icon"> Counseling Services
+                     </label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="mental-health" checked>
+                     <label for="mental-health">
+                         <img src="/api/placeholder/20/20" alt="Icon"> Mental Health
+                     </label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="therapy-services" checked>
+                     <label for="therapy-services">
+                         <img src="/api/placeholder/20/20" alt="Icon"> Therapy Services
+                     </label>
+                 </div>
+             </div>
+             
+             <div class="sidebar-section">
+                 <h3>Features</h3>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="free-signup" checked>
+                     <label for="free-signup">Free Sign-Up</label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="real-time-support" checked>
+                     <label for="real-time-support">Real-Time Support</label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="online-therapy" checked>
+                     <label for="online-therapy">Online Therapy</label>
+                 </div>
+                 <div class="checkbox-group">
+                     <input type="checkbox" id="ai-guidance" checked>
+                     <label for="ai-guidance">AI Guidance</label>
+                 </div>
+             </div>
+             
+             <div class="sidebar-section">
+                 <h3>Region</h3>
+                 <div class="search-box">
+                     <input type="text" value="United States (US)" readonly>
+                     <button>📍</button>
+                 </div>
+             </div>
+             
+             <div class="sidebar-section">
+                 <h3>Location</h3>
+                 <select>
+                     <option>New York (NY)</option>
+                     <option>Los Angeles (LA)</option>
+                     <option>Chicago (IL)</option>
+                     <option>Houston (TX)</option>
+                 </select>
+             </div>
+             
+             <button class="btn btn-primary" style="width: 100%;">Get Updates</button>
+         </aside>
+ 
+         <div class="testimonials">
+             <h2>What Our Customers Say</h2>
+             <div id="testimonial-list" class="therapists-grid"></div>
+         <div class="results">
+             <div class="results-header">
+                 <div class="results-count">Displaying 175 therapist matches</div>
+                 <select class="sort-dropdown">
+                     <option>Sort by: Top rated</option>
+                     <option>Sort by: Price (low to high)</option>
+                     <option>Sort by: Price (high to low)</option>
+                     <option>Sort by: Availability</option>
+                 </select>
+             </div>
+             
+             <div class="therapists-grid">
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="Grace Mills - therapist practicing meditation">
+                     <div class="therapist-info">
+                         <div class="therapist-name">Grace Mills</div>
+                         <div class="therapist-specialty">Cognitive Behavioral Therapy</div>
+                     </div>
+                 </div>
+                 
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="Ella Stone - mindfulness meditation specialist">
+                     <div class="therapist-info">
+                         <div class="therapist-name">Ella Stone</div>
+                         <div class="therapist-specialty">Mindfulness Meditation</div>
+                     </div>
+                 </div>
+                 
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="Harper Lane - art therapy specialist">
+                     <div class="therapist-info">
+                         <div class="therapist-name">Harper Lane</div>
+                         <div class="therapist-specialty">Art Therapy</div>
+                     </div>
+                 </div>
+                 
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="Skye Adams - family counselor">
+                     <div class="therapist-info">
+                         <div class="therapist-name">Skye Adams</div>
+                         <div class="therapist-specialty">Family Counseling</div>
+                     </div>
+                 </div>
+                 
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="River Brooks - online therapist">
+                     <div class="therapist-info">
+                         <div class="therapist-name">River Brooks</div>
+                         <div class="therapist-specialty">Online Therapy</div>
+                     </div>
+                 </div>
+                 
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="Phoenix Reed - group therapy leader">
+                     <div class="therapist-info">
+                         <div class="therapist-name">Phoenix Reed</div>
+                         <div class="therapist-specialty">Group Therapy</div>
+                     </div>
+                 </div>
+                 
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="Sage Woods - holistic healing specialist">
+                     <div class="therapist-info">
+                         <div class="therapist-name">Sage Woods</div>
+                         <div class="therapist-specialty">Holistic Healing</div>
+                     </div>
+                 </div>
+                 
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="Everly Quinn - trauma therapist">
+                     <div class="therapist-info">
+                         <div class="therapist-name">Everly Quinn</div>
+                         <div class="therapist-specialty">Trauma Therapy</div>
+                     </div>
+                 </div>
+                 
+                 <div class="therapist-card">
+                     <img class="therapist-img" src="/api/placeholder/400/320" alt="Luna Fox - self-care coach">
+                     <div class="therapist-info">
+                         <div class="therapist-name">Luna Fox</div>
+                         <div class="therapist-specialty">Self-Care Practices</div>
+                     </div>
+                 </div>
+             </div>
+             
+             <div class="pagination">
+                 <a href="#">&lt;</a>
+                 <a href="#" class="active">1</a>
+                 <a href="#">2</a>
+                 <a href="#">3</a>
+                 <a href="#">...</a>
+                 <a href="#">20</a>
+                 <a href="#">&gt;</a>
+             </div>
+         </div>
+     </main>
+ 
+     <script src="script.js" defer></script>
+     <footer>
+         <div class="footer-content">
+             <div class="footer-section">
+                 <h3>Mind Buddy</h3>
+                 <div>Connect with Us</div>
+                 <div class="social-links">
+                     <a href="#"><img class="social-icon" src="/api/placeholder/24/24" alt="Instagram"></a>
+                     <a href="#"><img class="social-icon" src="/api/placeholder/24/24" alt="Twitter"></a>
+                     <a href="#"><img class="social-icon" src="/api/placeholder/24/24" alt="Spotify"></a>
+                 </div>
+             </div>
+             
+             <div class="footer-section">
+                 <h3>Company</h3>
+                 <div class="footer-links">
+                     <a href="#">Features Pricing</a>
+                     <a href="#">Testimonials</a>
+                 </div>
+             </div>
+             
+             <div class="footer-section">
+                 <h3>Community Support</h3>
+                 <div class="footer-links">
+                     <a href="#">Programs Resources</a>
+                     <a href="#">Events</a>
+                 </div>
+             </div>
+             
+             <div class="footer-section">
+                 <h3>FAQ</h3>
+                 <div class="footer-links">
+                     <a href="#">Contact Feedback</a>
+                     <a href="#">Mobile Support</a>
+                 </div>
+             </div>
+         </div>
+     </footer>
+ 
+     <!-- Add a video showcasing mental health and wellbeing -->
+     <div style="background-color: #f8f8f8; padding: 3rem; text-align: center;">
+         <h2 style="margin-bottom: 1.5rem;">Learn About Mental Wellbeing</h2>
+         <p style="max-width: 800px; margin: 0 auto 2rem; color: #555;">
+             Explore how our therapists can help you on your journey to better mental health through various approaches.
+         </p>
+         <div style="max-width: 800px; margin: 0 auto; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+             <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="about:blank" title="Mental Health and Wellbeing" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #eee;">
+                 <div style="text-align: center;">
+                     <div style="font-size: 3rem; margin-bottom: 1rem;">▶️</div>
+                     <div>Mental Wellbeing Video</div>
+                     <div style="font-size: 0.8rem; color: #777;">(Video player placeholder)</div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ 
+     <!-- Add testimonials section -->
+     <div style="padding: 3rem 2rem; background-color: #fff;">
+         <h2 style="text-align: center; margin-bottom: 2rem;">Success Stories</h2>
+         <div style="display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; gap: 2rem; justify-content: center;">
+             <div style="flex: 1; min-width: 300px; max-width: 400px; background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                 <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                     <img src="/api/placeholder/60/60" alt="Client testimonial" style="width: 60px; height: 60px; border-radius: 50%; margin-right: 1rem;">
+                     <div>
+                         <div style="font-weight: 600;">Sarah M.</div>
+                         <div style="font-size: 0.85rem; color: #666;">Anxiety Management</div>
+                     </div>
+                 </div>
+                 <p style="color: #444; line-height: 1.5;">"Working with Grace has transformed how I handle my anxiety. The personalized techniques she taught me have made such a difference in my daily life. I'm now able to recognize triggers and respond in healthier ways."</p>
+             </div>
+             
+             <div style="flex: 1; min-width: 300px; max-width: 400px; background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                 <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                     <img src="/api/placeholder/60/60" alt="Client testimonial" style="width: 60px; height: 60px; border-radius: 50%; margin-right: 1rem;">
+                     <div>
+                         <div style="font-weight: 600;">James T.</div>
+                         <div style="font-size: 0.85rem; color: #666;">Depression Recovery</div>
+                     </div>
+                 </div>
+                 <p style="color: #444; line-height: 1.5;">"Phoenix's group therapy sessions provided me with community and understanding I couldn't find elsewhere. Sharing with others who truly understand has been healing in ways I never expected."</p>
+             </div>
+             
+             <div style="flex: 1; min-width: 300px; max-width: 400px; background-color: #f9f9f9; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                 <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                     <img src="/api/placeholder/60/60" alt="Client testimonial" style="width: 60px; height: 60px; border-radius: 50%; margin-right: 1rem;">
+                     <div>
+                         <div style="font-weight: 600;">Maya K.</div>
+                         <div style="font-size: 0.85rem; color: #666;">Work-Life Balance</div>
+                     </div>
+                 </div>
+                 <p style="color: #444; line-height: 1.5;">"The mindfulness techniques Ella taught me have completely changed how I approach my work day. I've learned to set boundaries and prioritize self-care, making me both happier and more productive."</p>
+             </div>
+         </div>
+     </div>
+ 
+     <!-- Mental Health Resources Section -->
+     <div style="background-color: #f5f5f5; padding: 3rem 2rem;">
+         <h2 style="text-align: center; margin-bottom: 2rem;">Mental Health Resources</h2>
+         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+             <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                 <img src="/api/placeholder/400/200" alt="Stress management guide" style="width: 100%; height: 200px; object-fit: cover;">
+                 <div style="padding: 1.5rem;">
+                     <h3 style="margin-bottom: 0.5rem;">Stress Management Guide</h3>
+                     <p style="color: #555; line-height: 1.5;">Learn practical techniques to manage daily stress and build resilience during challenging times.</p>
+                     <button style="background-color: #e83e8c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; margin-top: 1rem; cursor: pointer;">Download PDF</button>
+                 </div>
+             </div>
+             
+             <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                 <img src="/api/placeholder/400/200" alt="Meditation basics" style="width: 100%; height: 200px; object-fit: cover;">
+                 <div style="padding: 1.5rem;">
+                     <h3 style="margin-bottom: 0.5rem;">Meditation Basics</h3>
+                     <p style="color: #555; line-height: 1.5;">Start your meditation journey with these simple techniques for beginners to create a daily practice.</p>
+                     <button style="background-color: #e83e8c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; margin-top: 1rem; cursor: pointer;">Watch Tutorial</button>
+                 </div>
+             </div>
+             
+             <div style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                 <img src="/api/placeholder/400/200" alt="Journal prompts" style="width: 100%; height: 200px; object-fit: cover;">
+                 <div style="padding: 1.5rem;">
+                     <h3 style="margin-bottom: 0.5rem;">Self-Reflection Journal Prompts</h3>
+                     <p style="color: #555; line-height: 1.5;">Explore these thoughtful prompts to deepen your self-awareness and emotional intelligence.</p>
+                     <button style="background-color: #e83e8c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; margin-top: 1rem; cursor: pointer;">Get Started</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+ 
+     <script>
+         // Basic form validation
+         document.querySelector('.search-form').addEventListener('submit', function(e) {
+             e.preventDefault();
+             alert('Search functionality would be implemented here!');
+         });
+         
+         // Simple animation for therapist cards
+         const cards = document.querySelectorAll('.therapist-card');
+         cards.forEach(card => {
+             card.addEventListener('click', function() {
+                 alert('Therapist profile would open here!');
+             });
+         });
+     </script>
+ </body>
+ </html>

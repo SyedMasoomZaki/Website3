@@ -308,7 +308,30 @@
             width: 24px;
             height: 24px;
         }
-        
+         
+        .dark-mode {
+                background-color: #222;
+                color: #fff;
+        }
+                .dark-mode header,
+        .dark-mode footer {
+                background-color: #333;
+                color: #fff;
+        }
+
+        .dark-mode .search-card,
+        .dark-mode .therapist-card,
+        .dark-mode .sidebar-section,
+        .dark-mode .pagination a {
+                background-color: #444;
+                color: white;
+        }
+
+        .dark-mode .btn-secondary {
+                background-color: #555;
+                color: white;
+                border-color: #777;
+        }
         @media (max-width: 768px) {
             .search-form {
                 grid-template-columns: 1fr;
@@ -317,11 +340,7 @@
             .main-content {
                 flex-direction: column;
             }
-            
-            .dark-mode {
-                background-color: #222;
-                color: #fff;
-            }
+           
             .sidebar {
                 flex: none;
                 width: 100%;
@@ -337,6 +356,28 @@
         }
     </style>
 </head>
+
+<script>
+    // Dark mode toggle functionality
+    const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+    const body = document.body;
+
+    // Check if dark mode was previously enabled
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        body.classList.add('dark-mode');
+    }
+
+    toggleDarkModeButton.addEventListener('click', function () {
+        body.classList.toggle('dark-mode');
+
+        // Save user preference in localStorage
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('darkMode', 'enabled');
+        } else {
+            localStorage.removeItem('darkMode');
+        }
+    });
+</script>
 <body>
     <header>
         <a href="#" class="logo">Mind Buddy</a>
@@ -378,7 +419,6 @@
                 <h3>Customize your search</h3>
                 <div class="search-box">
                     <input type="text" placeholder="Search by name or specialty">
-                    <button>🔍</button>
                     <button id="toggleDarkMode" class="btn btn-secondary">Toggle Dark Mode</button>
                 </div>
             </div>
@@ -387,42 +427,42 @@
                 <h3>AI Program</h3>
                 <div class="checkbox-group">
                     <input type="checkbox" id="therapist-support" checked>
-                    <label for="therapist-support">
+                    <label for="therapist-support">Therapist Support
                     </label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="stress-management" checked>
-                    <label for="stress-management">
+                    <label for="stress-management">Stress Management
                         
                     </label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="cognitive-health" checked>
-                    <label for="cognitive-health">
+                    <label for="cognitive-health">Cognitive Health
                         
                     </label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="emotional-wellness" checked>
-                    <label for="emotional-wellness">
+                    <label for="emotional-wellness">Emotional Wellnaess
                        
                     </label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="counseling-services" checked>
-                    <label for="counseling-services">
+                    <label for="counseling-services">Counselling Services
                        
                     </label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="mental-health" checked>
-                    <label for="mental-health">
+                    <label for="mental-health">Mental Health
                         
                     </label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="therapy-services" checked>
-                    <label for="therapy-services">
+                    <label for="therapy-services">Therapy Services
                        
                     </label>
                 </div>

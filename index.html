@@ -350,13 +350,7 @@
 
     toggleDarkMode.addEventListener("click", function () {
         body.classList.toggle('dark-mode');
-
-        // Save user preference in localStorage
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('darkMode', 'enabled');
-        } else {
-            localStorage.removeItem('darkMode');
-        }
+      
     });
 </script>
 <body>

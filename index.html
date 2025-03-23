@@ -377,8 +377,9 @@
             <div class="sidebar-section">
                 <h3>Customize your search</h3>
                 <div class="search-box">
-                    <input type="text" placeholder="Search">
+                    <input type="text" placeholder="Search by name or specialty">
                     <button>🔍</button>
+                    <button id="toggleDarkMode" class="btn btn-secondary">Toggle Dark Mode</button>
                 </div>
             </div>
             
@@ -692,19 +693,6 @@
             </div>
         </div>
     </div>
- <main class="main-content">
-        <aside class="sidebar">
-            <h3>Search Therapists</h3>
-            <input type="text" id="searchBar" placeholder="Search by name or specialty">
-            <button id="toggleDarkMode" class="btn btn-secondary">Toggle Dark Mode</button>
-        </aside>
-
-        <div class="results">
-            <div class="therapists-grid" id="therapist-list">
-                <!-- Therapists will be loaded dynamically here -->
-            </div>
-        </div>
-    </main>
     <script>
         // Basic form validation
         document.querySelector('.search-form').addEventListener('submit', function(e) {

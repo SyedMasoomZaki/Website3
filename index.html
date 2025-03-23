@@ -340,7 +340,7 @@
 
 <script>
     // Dark mode toggle functionality
-    const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+    const toggleDarkMode = document.getElementById('toggleDarkMode');
     const body = document.body;
 
     // Check if dark mode was previously enabled
@@ -348,7 +348,7 @@
         body.classList.add('dark-mode');
     }
 
-    toggleDarkModeButton.addEventListener('click', function () {
+    toggleDarkMode.addEventListener('click', function () {
         body.classList.toggle('dark-mode');
 
         // Save user preference in localStorage
@@ -396,13 +396,9 @@
 
     <main class="main-content">
         <aside class="sidebar">
-            <div class="sidebar-section">
-                <h3>Customize your search</h3>
-                <div class="search-box">
-                    <input type="text" placeholder="Search by name or specialty">
-                    <button id="toggleDarkModeButton" class="btn btn-secondary">Toggle Dark Mode</button>
-                </div>
-            </div>
+            <h3>Customize your search</h3>
+            <input type="text" id="searchBar" placeholder="Search by name or specialty">
+            <button id="toggleDarkMode" class="btn btn-secondary">Toggle Dark Mode</button>
             
             <div class="sidebar-section">
                 <h3>AI Program</h3>
